@@ -1,17 +1,11 @@
-"""Simple Cashier — Minggu 02 (Class, Object, Attribute, Method).
+"""Simple Cashier — Minggu 03 (Encapsulation).
 
-Data produk yang di Minggu 01 masih berupa dictionary
-sekarang menjadi object dari class Product.
+Data produk menggunakan object dari class Product.
+Perubahan harga dan stok harus melalui method yang menjaga aturannya.
 """
 
 from models.product import Product
 
-# Satu object Product, dibuat dari class-nya.
-product = Product("P001", "Indomie", 3000, 20)
-
-print("Produk pertama:", product.name)
-print("Subtotal 2 Indomie =", product.subtotal(2))
-print()
 
 # Banyak object, disimpan dalam list.
 products = [
@@ -29,22 +23,54 @@ for item in products:
     print(item.code, item.name, item.price, item.stock)
 
 print()
-print("--- Minggu 01 vs Minggu 02 ---")
+print("--- Masalah Minggu 02 ---")
 
-# Minggu 01 — dictionary.
-product_dict = {"code": "P001", "name": "Indomie", "price": 3000, "stock": 20}
-print("dictionary :", product_dict["name"], "subtotal", product_dict["price"] * 2)
+indomie = products[0]
 
-# Minggu 02 — object. Rumus subtotal tidak lagi ditulis ulang di sini.
-print("object     :", product.name, "subtotal", product.subtotal(2))
+# Harga tidak boleh diubah langsung karena property tidak memiliki setter.
+try:
+    indomie.price = -5000
+except AttributeError:
+    print("Menulis langsung ke price ditolak (property tanpa setter).")
 
 print()
-print("--- Catatan untuk Minggu 03 ---")
+print("--- Perubahan lewat method ---")
 
-# Satu masalah Minggu 01 sudah selesai: perilaku kini menyatu dengan data.
-# Tetapi datanya masih belum terjaga.
-products[0].price = -5000
-products[0].stock = -100
-print("Harga sekarang:", products[0].price, "(negatif, masih diterima)")
-print("Stock sekarang:", products[0].stock, "(negatif, masih diterima)")
-print("Belum ada yang menjaga aturan ini -> encapsulation di Minggu 03.")
+# Perubahan harga dilakukan melalui method.
+indomie.change_price(3500)
+print("Harga baru:", indomie.price)
+
+# Stok dikurangi melalui method.
+indomie.reduce_stock(5)
+print("Stock setelah terjual 5:", indomie.stock)
+
+print()
+print("--- Setiap aturan diuji ---")
+
+# Percobaan 1: harga negatif harus ditolak.
+try:
+    indomie.change_price(-5000)
+except ValueError as error:
+    print("change_price(-5000) ->", error)
+
+# Percobaan 2: jumlah nol harus ditolak.
+try:
+    indomie.reduce_stock(0)
+except ValueError as error:
+    print("reduce_stock(0)    ->", error)
+
+# Percobaan 3: jumlah negatif harus ditolak.
+try:
+    indomie.reduce_stock(-3)
+except ValueError as error:
+    print("reduce_stock(-3)   ->", error)
+
+# Percobaan 4: jumlah melebihi stok harus ditolak.
+try:
+    indomie.reduce_stock(999)
+except ValueError as error:
+    print("reduce_stock(999)  ->", error)
+
+print()
+print("Harga akhir:", indomie.price, "| Stock akhir:", indomie.stock)
+print("Percobaan yang gagal tidak mengubah apa pun.")
