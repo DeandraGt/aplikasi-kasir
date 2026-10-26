@@ -16,3 +16,4 @@ class Product:
     def subtotal(self, quantity):
         # Method: perilaku yang menempel pada datanya sendiri.
         return self.price * quantity
+    
