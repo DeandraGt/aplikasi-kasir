@@ -1,6 +1,6 @@
 # Simple Cashier
 
-Program Simple Cashier merupakan proyek praktikum Pemrograman Komputer 2 (BD322) yang dikembangkan menggunakan Python. Proyek ini dibuat secara bertahap untuk mempelajari dasar pemrograman berorientasi objek (*Object-Oriented Programming* atau OOP), pengelolaan data produk, encapsulation, inheritance, dan polymorphism.
+Program Simple Cashier merupakan proyek praktikum Pemrograman Komputer 2 (BD322) yang dikembangkan menggunakan Python. Proyek ini dibuat secara bertahap untuk mempelajari dasar pemrograman berorientasi objek (*Object-Oriented Programming* atau OOP), pengelolaan data produk, encapsulation, inheritance, polymorphism, serta pengelolaan katalog menggunakan list dan dictionary.
 
 ## Deskripsi Proyek
 
@@ -11,7 +11,7 @@ Simple Cashier merupakan program kasir sederhana yang berfokus pada pengelolaan 
 - **Bahasa pemrograman:** Python
 - **Version control:** Git
 - **Repository hosting:** GitHub
-- **Konsep pemrograman:** Object-Oriented Programming (OOP)
+- **Konsep pemrograman:** Object-Oriented Programming (OOP), List, dan Dictionary
 
 ## Struktur Proyek
 
@@ -21,7 +21,8 @@ aplikasi-kasir/
 ├── models/
 │   ├── product.py
 │   ├── food_product.py
-│   └── digital_product.py
+│   ├── digital_product.py
+│   └── product_catalog.py
 └── README.md
 ```
 
@@ -31,6 +32,7 @@ Keterangan:
 - `models/product.py`: Berisi class utama `Product`, termasuk data dan perilaku dasar produk.
 - `models/food_product.py`: Berisi class `FoodProduct` untuk produk makanan yang memiliki tanggal kedaluwarsa.
 - `models/digital_product.py`: Berisi class `DigitalProduct` untuk produk digital.
+- `models/product_catalog.py`: Berisi class `ProductCatalog` untuk menyimpan, mengambil, menghapus, menampilkan, dan mencari produk.
 - `README.md`: Dokumentasi proyek dan perkembangan praktikum.
 
 ## Cara Menjalankan Program
@@ -70,6 +72,7 @@ Pastikan Python sudah terpasang di komputer.
 | 02 | Object-Oriented Programming: class `Product`, atribut, method, dan perhitungan subtotal | Selesai |
 | 03 | Encapsulation & Modularization: property, `_price`, `_stock`, `change_price()`, dan `reduce_stock()` | Selesai |
 | 04 | Inheritance & Polymorphism: `FoodProduct`, `DigitalProduct`, `super()`, method overriding, dan `get_description()` | Selesai |
+| 05 | List & Dictionary: `ProductCatalog`, penyimpanan produk berdasarkan kode, pengambilan produk, penghapusan produk, dan pencarian berdasarkan nama | Selesai |
 
 ## Ringkasan Pengembangan
 
@@ -103,6 +106,19 @@ Mengembangkan variasi produk melalui inheritance dan polymorphism.
 - Satu list dan satu loop digunakan untuk menampilkan deskripsi berbagai jenis produk.
 - Aturan encapsulation dari Minggu 03 tetap berlaku pada class turunan.
 
+### Minggu 05 — List & Dictionary
+
+Mengembangkan class `ProductCatalog` untuk mengelola kumpulan produk menggunakan dictionary dan list.
+
+- Dictionary digunakan untuk menyimpan produk dengan `code` sebagai key dan objek produk sebagai value.
+- Method `add(product)` menambahkan produk ke katalog berdasarkan kode produk.
+- Method `get(code)` mengambil produk berdasarkan kode dan mengembalikan `None` jika kode tidak ditemukan.
+- Method `remove(code)` menghapus produk berdasarkan kode tanpa menimbulkan error jika kode tidak tersedia.
+- Method `all()` mengembalikan seluruh produk dalam bentuk list.
+- Method `search(keyword)` mencari produk berdasarkan potongan nama tanpa membedakan huruf besar dan kecil.
+- List digunakan untuk menampilkan kumpulan produk dan menampung hasil pencarian.
+- Katalog mendukung berbagai jenis objek produk, termasuk `Product`, `FoodProduct`, dan `DigitalProduct`.
+
 ## Hasil Pengujian Minggu 04
 
 Program diuji menggunakan perintah `python main.py` atau `python3 main.py`.
@@ -118,18 +134,33 @@ Hasil yang diharapkan:
 - Pengurangan stok melebihi persediaan ditolak.
 - Stok Roti berubah dari 8 menjadi 5 setelah dikurangi 3.
 
+## Hasil Pengujian Minggu 05
+
+Program diuji menggunakan perintah `python main.py` atau `python3 main.py`.
+
+Hasil yang diharapkan:
+
+- Katalog dapat menyimpan produk biasa, produk makanan, dan produk digital.
+- Produk dapat ditampilkan melalui method `all()`.
+- Produk dapat diambil berdasarkan kode menggunakan `get()`.
+- Kode yang tidak tersedia menghasilkan `None`.
+- Pencarian nama tidak membedakan huruf besar dan kecil, misalnya `teh` dan `TEH`.
+- Pencarian dapat menghasilkan beberapa produk, satu produk, atau tidak menemukan produk.
+- Produk dapat dihapus menggunakan `remove()`.
+- Penghapusan kode yang tidak tersedia tidak menghentikan program.
+
 ## Tujuan Pembelajaran
 
-Melalui proyek Simple Cashier, mahasiswa diharapkan memahami dasar pemrograman Python, pemodelan produk menggunakan class, encapsulation untuk menjaga validitas data, inheritance untuk menggunakan kembali perilaku class induk, dan polymorphism untuk menjalankan perilaku berbeda melalui method yang sama.
+Melalui proyek Simple Cashier, mahasiswa diharapkan memahami dasar pemrograman Python, pemodelan produk menggunakan class, encapsulation untuk menjaga validitas data, inheritance untuk menggunakan kembali perilaku class induk, polymorphism untuk menjalankan perilaku berbeda melalui method yang sama, serta penggunaan list dan dictionary untuk mengelola kumpulan data.
 
 ## Version Control
 
 Pengembangan proyek dilakukan secara bertahap menggunakan Git dan GitHub. Setiap minggu dikerjakan melalui branch tersendiri, kemudian diajukan melalui Pull Request untuk ditinjau dan digabungkan ke branch utama sesuai alur praktikum.
 
-Checkpoint setiap minggu menggunakan tag Git, seperti `week-02`, `week-03`, dan `week-04`, sesuai tahapan yang telah diselesaikan.
+Checkpoint setiap minggu menggunakan tag Git, seperti `week-02`, `week-03`, `week-04`, dan `week-05`, sesuai tahapan yang telah diselesaikan.
 
 ## Status Proyek
 
-**Minggu 01–04: Selesai.**
+**Minggu 01–05: Selesai.**
 
-Proyek telah mencakup model produk dasar, encapsulation, inheritance, dan polymorphism. Pengembangan selanjutnya mengikuti materi dan kebutuhan pada minggu praktikum berikutnya.
+Proyek telah mencakup model produk dasar, encapsulation, inheritance, polymorphism, serta pengelolaan katalog produk menggunakan list dan dictionary. Pengembangan selanjutnya mengikuti materi dan kebutuhan pada minggu praktikum berikutnya.
