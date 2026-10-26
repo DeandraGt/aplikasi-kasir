@@ -1,67 +1,125 @@
 # Simple Cashier
 
-Aplikasi kasir sederhana berbasis Python, dikembangkan bertahap pada mata kuliah
-**Pemrograman Komputer 2 (BD322)**, Program Studi Bisnis Digital,
-Universitas Panca Bhakti Pontianak.
+Program Simple Cashier merupakan proyek praktikum Pemrograman Komputer 2 (BD322) yang dikembangkan menggunakan Python. Proyek ini dibuat secara bertahap untuk mempelajari dasar pemrograman berorientasi objek (*Object-Oriented Programming* atau OOP), pengelolaan data produk, encapsulation, inheritance, dan polymorphism.
 
-## Tujuan
+## Deskripsi Proyek
 
-Membangun aplikasi kasir yang menampilkan daftar produk dan menghitung subtotal belanja.
+Simple Cashier merupakan program kasir sederhana yang berfokus pada pengelolaan data produk, harga, stok, dan perhitungan subtotal. Pengembangan dilakukan secara bertahap sesuai materi praktikum setiap minggu.
 
-- **Minggu 01:** menyiapkan repository dan program pertama. Data produk disimpan sebagai
-  dictionary di dalam list, lalu dicatat tiga keterbatasannya.
-- **Minggu 02:** mengganti dictionary dengan object dari class `Product`, dan memindahkan
-  perhitungan subtotal menjadi method `subtotal(quantity)`.
+## Teknologi yang Digunakan
 
-## Kebutuhan
-
-- Python 3
-- Git
-- Akun GitHub (repository kelompok)
-
-## Cara Menjalankan
-
-```bash
-git clone <URL repository kelompok>
-cd cashier-app
-python3 main.py
-```
-
-Jalankan dari akar repository (folder yang memuat `main.py` dan `models/`),
-supaya `from models.product import Product` dapat ditemukan.
-Pada Linux dan WSL, gunakan `python3`, bukan `python`.
+- **Bahasa pemrograman:** Python
+- **Version control:** Git
+- **Repository hosting:** GitHub
+- **Konsep pemrograman:** Object-Oriented Programming (OOP)
 
 ## Struktur Proyek
 
-```
-cashier-app/
-├── .gitignore
-├── README.md
+```text
+aplikasi-kasir/
 ├── main.py
-└── models/
-    └── product.py
+├── models/
+│   ├── product.py
+│   ├── food_product.py
+│   └── digital_product.py
+└── README.md
 ```
 
-## Ringkasan Per Minggu
+Keterangan:
 
-### Minggu 01 — Foundation
+- `main.py`: Menjalankan program dan menguji fitur yang dikembangkan.
+- `models/product.py`: Berisi class utama `Product`, termasuk data dan perilaku dasar produk.
+- `models/food_product.py`: Berisi class `FoodProduct` untuk produk makanan yang memiliki tanggal kedaluwarsa.
+- `models/digital_product.py`: Berisi class `DigitalProduct` untuk produk digital.
+- `README.md`: Dokumentasi proyek dan perkembangan praktikum.
 
-- Satu produk = satu dictionary (`code`, `name`, `price`, `stock`).
-- Banyak produk = list berisi dictionary.
-- Subtotal dihitung langsung di `main.py` (`price * quantity`).
-- Keterbatasan dictionary yang dicatat: harga negatif diterima, salah ketik key baru
-  ketahuan saat error (`KeyError`), dan rumus subtotal terpisah dari datanya.
+## Cara Menjalankan Program
 
-### Minggu 02 — Class, Object, Attribute, Method
+Pastikan Python sudah terpasang di komputer.
 
-- Class `Product` di `models/product.py` dengan empat attribute dan method `subtotal(quantity)`.
-- `product["name"]` menjadi `product.name`; rumus subtotal ditulis satu kali di dalam class.
-- Salah ketik attribute menghasilkan `AttributeError` yang menyebut nama attribute-nya.
-- Masih terbuka: harga dan stok negatif masih diterima lewat assignment langsung.
+1. Buka terminal pada folder proyek.
+2. Jalankan perintah berikut:
+
+   ```bash
+   python main.py
+   ```
+
+   Jika menggunakan lingkungan yang menyediakan perintah `python3`, jalankan:
+
+   ```bash
+   python3 main.py
+   ```
+
+3. Periksa keluaran terminal untuk memastikan program berjalan sesuai hasil yang diharapkan.
 
 ## Weekly Progress
 
-| Minggu | Topik | Status |
-|--------|-------|--------|
-| 01 | Foundation: repository, program pertama, data produk sebagai dictionary | Selesai |
-| 02 | Class, Object, Attribute, Method: class `Product` dan method `subtotal(quantity)` | Selesai |
+| Minggu | Materi | Status |
+|---|---|---|
+| 01 | Dasar Python dan fondasi program Simple Cashier | Selesai |
+| 02 | Object-Oriented Programming: class `Product`, atribut, method, dan perhitungan subtotal | Selesai |
+| 03 | Encapsulation & Modularization: property, `_price`, `_stock`, `change_price()`, dan `reduce_stock()` | Selesai |
+| 04 | Inheritance & Polymorphism: `FoodProduct`, `DigitalProduct`, `super()`, method overriding, dan `get_description()` | Selesai |
+
+## Ringkasan Pengembangan
+
+### Minggu 01 — Dasar Pemrograman
+
+Mempelajari dasar pemrograman Python sebagai fondasi pengembangan program Simple Cashier.
+
+### Minggu 02 — Product Model
+
+Mengembangkan class `Product` untuk merepresentasikan produk dengan atribut seperti kode, nama, harga, dan stok. Class ini juga menyediakan method `subtotal(quantity)` untuk menghitung subtotal berdasarkan harga dan jumlah produk.
+
+### Minggu 03 — Encapsulation & Modularization
+
+Menerapkan encapsulation pada class `Product` dengan menyimpan harga dan stok dalam `_price` dan `_stock`.
+
+Perubahan nilai dilakukan melalui method khusus:
+
+- `price` dan `stock` dibaca menggunakan `@property`.
+- `change_price(new_price)` menolak harga negatif.
+- `reduce_stock(quantity)` menolak jumlah nol, negatif, atau melebihi stok yang tersedia.
+- Percobaan perubahan yang tidak valid menghasilkan error tanpa mengubah nilai yang tersimpan.
+
+### Minggu 04 — Inheritance & Polymorphism
+
+Mengembangkan variasi produk melalui inheritance dan polymorphism.
+
+- `FoodProduct` merupakan turunan `Product` dengan atribut tambahan `expiry_date`.
+- `DigitalProduct` merupakan turunan `Product` untuk produk digital.
+- `super().__init__()` digunakan untuk memanggil konstruktor class induk pada `FoodProduct`.
+- `get_description()` digunakan untuk menunjukkan method overriding pada jenis produk yang berbeda.
+- Satu list dan satu loop digunakan untuk menampilkan deskripsi berbagai jenis produk.
+- Aturan encapsulation dari Minggu 03 tetap berlaku pada class turunan.
+
+## Hasil Pengujian Minggu 04
+
+Program diuji menggunakan perintah `python main.py` atau `python3 main.py`.
+
+Hasil yang diharapkan:
+
+- Produk biasa menampilkan nama produk.
+- Produk makanan menampilkan nama dan tanggal kedaluwarsa.
+- Produk digital menampilkan nama dan keterangan produk digital.
+- Subtotal 3 Roti dengan harga Rp7.000 per unit menghasilkan `21000`.
+- Harga produk tidak dapat diubah melalui assignment langsung ke `price`.
+- Harga negatif ditolak.
+- Pengurangan stok melebihi persediaan ditolak.
+- Stok Roti berubah dari 8 menjadi 5 setelah dikurangi 3.
+
+## Tujuan Pembelajaran
+
+Melalui proyek Simple Cashier, mahasiswa diharapkan memahami dasar pemrograman Python, pemodelan produk menggunakan class, encapsulation untuk menjaga validitas data, inheritance untuk menggunakan kembali perilaku class induk, dan polymorphism untuk menjalankan perilaku berbeda melalui method yang sama.
+
+## Version Control
+
+Pengembangan proyek dilakukan secara bertahap menggunakan Git dan GitHub. Setiap minggu dikerjakan melalui branch tersendiri, kemudian diajukan melalui Pull Request untuk ditinjau dan digabungkan ke branch utama sesuai alur praktikum.
+
+Checkpoint setiap minggu menggunakan tag Git, seperti `week-02`, `week-03`, dan `week-04`, sesuai tahapan yang telah diselesaikan.
+
+## Status Proyek
+
+**Minggu 01–04: Selesai.**
+
+Proyek telah mencakup model produk dasar, encapsulation, inheritance, dan polymorphism. Pengembangan selanjutnya mengikuti materi dan kebutuhan pada minggu praktikum berikutnya.
