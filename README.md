@@ -1,17 +1,17 @@
 # Simple Cashier
 
-Program Simple Cashier merupakan proyek praktikum Pemrograman Komputer 2 (BD322) yang dikembangkan menggunakan Python. Proyek ini dibuat secara bertahap untuk mempelajari dasar pemrograman berorientasi objek (*Object-Oriented Programming* atau OOP), pengelolaan data produk, encapsulation, inheritance, polymorphism, serta pengelolaan katalog menggunakan list dan dictionary.
+Program Simple Cashier merupakan proyek praktikum Pemrograman Komputer 2 (BD322) yang dikembangkan menggunakan Python. Proyek ini dibuat secara bertahap untuk mempelajari dasar pemrograman berorientasi objek (*Object-Oriented Programming* atau OOP), pengelolaan data produk, encapsulation, inheritance, polymorphism, serta struktur data list, dictionary, stack, dan queue.
 
 ## Deskripsi Proyek
 
-Simple Cashier merupakan program kasir sederhana yang berfokus pada pengelolaan data produk, harga, stok, dan perhitungan subtotal. Pengembangan dilakukan secara bertahap sesuai materi praktikum setiap minggu.
+Simple Cashier merupakan program kasir sederhana yang berfokus pada pengelolaan data produk, harga, stok, perhitungan subtotal, katalog produk, antrean order, dan riwayat tindakan. Pengembangan dilakukan secara bertahap sesuai materi praktikum setiap minggu.
 
 ## Teknologi yang Digunakan
 
 - **Bahasa pemrograman:** Python
 - **Version control:** Git
 - **Repository hosting:** GitHub
-- **Konsep pemrograman:** Object-Oriented Programming (OOP), List, dan Dictionary
+- **Konsep pemrograman:** Object-Oriented Programming (OOP), List, Dictionary, Stack, dan Queue
 
 ## Struktur Proyek
 
@@ -23,6 +23,9 @@ aplikasi-kasir/
 │   ├── food_product.py
 │   ├── digital_product.py
 │   └── product_catalog.py
+├── services/
+│   ├── order_queue.py
+│   └── action_history.py
 └── README.md
 ```
 
@@ -33,6 +36,8 @@ Keterangan:
 - `models/food_product.py`: Berisi class `FoodProduct` untuk produk makanan yang memiliki tanggal kedaluwarsa.
 - `models/digital_product.py`: Berisi class `DigitalProduct` untuk produk digital.
 - `models/product_catalog.py`: Berisi class `ProductCatalog` untuk menyimpan, mengambil, menghapus, menampilkan, dan mencari produk.
+- `services/order_queue.py`: Berisi class `OrderQueue` untuk mengelola antrean order menggunakan `deque`.
+- `services/action_history.py`: Berisi class `ActionHistory` untuk mengelola riwayat tindakan menggunakan list.
 - `README.md`: Dokumentasi proyek dan perkembangan praktikum.
 
 ## Cara Menjalankan Program
@@ -73,6 +78,7 @@ Pastikan Python sudah terpasang di komputer.
 | 03 | Encapsulation & Modularization: property, `_price`, `_stock`, `change_price()`, dan `reduce_stock()` | Selesai |
 | 04 | Inheritance & Polymorphism: `FoodProduct`, `DigitalProduct`, `super()`, method overriding, dan `get_description()` | Selesai |
 | 05 | List & Dictionary: `ProductCatalog`, penyimpanan produk berdasarkan kode, pengambilan produk, penghapusan produk, dan pencarian berdasarkan nama | Selesai |
+| 06 | Stack & Queue: `ActionHistory`, `OrderQueue`, LIFO, FIFO, `push()`, `pop()`, `enqueue()`, dan `dequeue()` | Selesai |
 
 ## Ringkasan Pengembangan
 
@@ -119,6 +125,32 @@ Mengembangkan class `ProductCatalog` untuk mengelola kumpulan produk menggunakan
 - List digunakan untuk menampilkan kumpulan produk dan menampung hasil pencarian.
 - Katalog mendukung berbagai jenis objek produk, termasuk `Product`, `FoodProduct`, dan `DigitalProduct`.
 
+### Minggu 06 — Stack & Queue
+
+Mengembangkan dua struktur data untuk mengelola urutan pekerjaan dan riwayat tindakan dalam konteks aplikasi kasir.
+
+**1. Queue — `OrderQueue`**
+
+Queue digunakan untuk mengelola antrean order di dapur dengan prinsip FIFO (*First In, First Out*), yaitu order yang masuk lebih dahulu akan dilayani lebih dahulu.
+
+- Menggunakan `deque` dari modul `collections`.
+- Method `enqueue(order)` menambahkan order ke belakang antrean.
+- Method `dequeue()` mengambil order dari depan antrean.
+- Method `is_empty()` memeriksa apakah antrean kosong.
+- Jika antrean kosong, `dequeue()` mengembalikan `None` tanpa menghentikan program.
+- `deque` dipilih karena penambahan di belakang dan pengambilan dari depan dapat dilakukan secara efisien.
+
+**2. Stack — `ActionHistory`**
+
+Stack digunakan untuk menyimpan riwayat tindakan kasir yang dapat dibatalkan dengan prinsip LIFO (*Last In, First Out*), yaitu tindakan yang terakhir dilakukan akan dibatalkan terlebih dahulu.
+
+- Menggunakan list Python.
+- Method `push(action)` menambahkan tindakan baru ke tumpukan.
+- Method `pop()` mengambil tindakan paling terakhir dari tumpukan.
+- Method `is_empty()` memeriksa apakah riwayat tindakan kosong.
+- Jika riwayat kosong, `pop()` mengembalikan `None` tanpa menghentikan program.
+- List dipilih karena penambahan dan pengambilan tindakan sama-sama dilakukan pada ujung list.
+
 ## Hasil Pengujian Minggu 04
 
 Program diuji menggunakan perintah `python main.py` atau `python3 main.py`.
@@ -149,18 +181,33 @@ Hasil yang diharapkan:
 - Produk dapat dihapus menggunakan `remove()`.
 - Penghapusan kode yang tidak tersedia tidak menghentikan program.
 
+## Hasil Pengujian Minggu 06
+
+Program diuji menggunakan perintah `python main.py` atau `python3 main.py`.
+
+Hasil yang diharapkan:
+
+- Antrean menerima tiga order melalui `enqueue()`.
+- Pemanggilan `dequeue()` menghasilkan order sesuai urutan masuknya, yaitu `ORD-001`, `ORD-002`, lalu `ORD-003`.
+- Pemanggilan `dequeue()` ketika antrean kosong menghasilkan `None`.
+- Riwayat menerima tiga tindakan melalui `push()`.
+- Pemanggilan `pop()` menghasilkan tindakan dalam urutan terbalik dari urutan masuknya.
+- Tindakan terakhir yang dilakukan menjadi tindakan pertama yang dibatalkan.
+- Pemanggilan `pop()` ketika riwayat kosong menghasilkan `None`.
+- Katalog, antrean, dan riwayat dapat digunakan secara terpisah tanpa saling mengimpor.
+
 ## Tujuan Pembelajaran
 
-Melalui proyek Simple Cashier, mahasiswa diharapkan memahami dasar pemrograman Python, pemodelan produk menggunakan class, encapsulation untuk menjaga validitas data, inheritance untuk menggunakan kembali perilaku class induk, polymorphism untuk menjalankan perilaku berbeda melalui method yang sama, serta penggunaan list dan dictionary untuk mengelola kumpulan data.
+Melalui proyek Simple Cashier, mahasiswa diharapkan memahami dasar pemrograman Python, pemodelan produk menggunakan class, encapsulation untuk menjaga validitas data, inheritance untuk menggunakan kembali perilaku class induk, polymorphism untuk menjalankan perilaku berbeda melalui method yang sama, penggunaan list dan dictionary untuk mengelola kumpulan data, serta penerapan stack dan queue untuk mengatur urutan tindakan.
 
 ## Version Control
 
 Pengembangan proyek dilakukan secara bertahap menggunakan Git dan GitHub. Setiap minggu dikerjakan melalui branch tersendiri, kemudian diajukan melalui Pull Request untuk ditinjau dan digabungkan ke branch utama sesuai alur praktikum.
 
-Checkpoint setiap minggu menggunakan tag Git, seperti `week-02`, `week-03`, `week-04`, dan `week-05`, sesuai tahapan yang telah diselesaikan.
+Checkpoint setiap minggu menggunakan tag Git, seperti `week-02`, `week-03`, `week-04`, `week-05`, dan `week-06`, sesuai tahapan yang telah diselesaikan.
 
 ## Status Proyek
 
-**Minggu 01–05: Selesai.**
+**Minggu 01–06: Selesai.**
 
-Proyek telah mencakup model produk dasar, encapsulation, inheritance, polymorphism, serta pengelolaan katalog produk menggunakan list dan dictionary. Pengembangan selanjutnya mengikuti materi dan kebutuhan pada minggu praktikum berikutnya.
+Proyek telah mencakup model produk dasar, encapsulation, inheritance, polymorphism, pengelolaan katalog produk menggunakan list dan dictionary, serta pengelolaan antrean order dan riwayat tindakan menggunakan queue dan stack. Pengembangan selanjutnya mengikuti materi dan kebutuhan pada minggu praktikum berikutnya.
