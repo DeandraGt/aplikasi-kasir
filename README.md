@@ -52,6 +52,16 @@ Pastikan Python sudah terpasang di komputer.
 
 3. Periksa keluaran terminal untuk memastikan program berjalan sesuai hasil yang diharapkan.
 
+### Minggu 03 — Encapsulation & Modularization
+
+- Atribut internal `_price` dan `_stock` digunakan untuk menyimpan harga dan stok produk.
+- Property `price` dan `stock` memungkinkan data dibaca dari luar tanpa penulisan langsung melalui kedua property tersebut.
+- Method `change_price(new_price)` menolak harga negatif dengan `ValueError`.
+- Method `reduce_stock(quantity)` menolak quantity nol, negatif, atau melebihi stok yang tersedia.
+- Pengujian menggunakan `try-except` memastikan percobaan yang tidak valid ditolak tanpa menghentikan program.
+- Setelah pengujian, harga Indomie menjadi `3500` dan stok menjadi `15`.
+- Import `Product` tetap menggunakan `from models.product import Product`.
+
 ## Weekly Progress
 
 | Minggu | Materi | Status |

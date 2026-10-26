@@ -22,6 +22,10 @@ class Product:
         # Stock boleh dibaca, tetapi tidak boleh diubah langsung.
         return self._stock
 
+    @property
+    def stock(self):
+        return self._stock
+    
     def subtotal(self, quantity):
         return self._price * quantity
 
