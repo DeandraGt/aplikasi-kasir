@@ -7,8 +7,11 @@ Universitas Panca Bhakti Pontianak.
 ## Tujuan
 
 Membangun aplikasi kasir yang menampilkan daftar produk dan menghitung subtotal belanja.
-Pada Minggu 02, data produk berpindah dari dictionary ke object dari class `Product`,
-dan perhitungan subtotal menjadi method milik class tersebut.
+
+- **Minggu 01:** menyiapkan repository dan program pertama. Data produk disimpan sebagai
+  dictionary di dalam list, lalu dicatat tiga keterbatasannya.
+- **Minggu 02:** mengganti dictionary dengan object dari class `Product`, dan memindahkan
+  perhitungan subtotal menjadi method `subtotal(quantity)`.
 
 ## Kebutuhan
 
@@ -38,6 +41,23 @@ cashier-app/
 └── models/
     └── product.py
 ```
+
+## Ringkasan Per Minggu
+
+### Minggu 01 — Foundation
+
+- Satu produk = satu dictionary (`code`, `name`, `price`, `stock`).
+- Banyak produk = list berisi dictionary.
+- Subtotal dihitung langsung di `main.py` (`price * quantity`).
+- Keterbatasan dictionary yang dicatat: harga negatif diterima, salah ketik key baru
+  ketahuan saat error (`KeyError`), dan rumus subtotal terpisah dari datanya.
+
+### Minggu 02 — Class, Object, Attribute, Method
+
+- Class `Product` di `models/product.py` dengan empat attribute dan method `subtotal(quantity)`.
+- `product["name"]` menjadi `product.name`; rumus subtotal ditulis satu kali di dalam class.
+- Salah ketik attribute menghasilkan `AttributeError` yang menyebut nama attribute-nya.
+- Masih terbuka: harga dan stok negatif masih diterima lewat assignment langsung.
 
 ## Weekly Progress
 
