@@ -65,4 +65,3 @@ cashier-app/
 |--------|-------|--------|
 | 01 | Foundation: repository, program pertama, data produk sebagai dictionary | Selesai |
 | 02 | Class, Object, Attribute, Method: class `Product` dan method `subtotal(quantity)` | Selesai |
-
