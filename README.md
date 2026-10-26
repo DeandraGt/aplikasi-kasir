@@ -1,7 +1,7 @@
 # Simple Cashier
 
 Aplikasi kasir sederhana berbasis Python, dikembangkan bertahap pada mata kuliah
-**Pemrograman Komputer 2 (BD322)**, Program Studi Teknik Informatika,
+**Pemrograman Computer 2 (BD322)**, Program Studi Bisnis Digital,
 Universitas Panca Bhakti Pontianak.
 
 ## Tujuan
