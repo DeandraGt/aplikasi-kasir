@@ -1,43 +1,48 @@
 # MILESTONE — Simple Cashier
 
-## Minggu 01 — Foundation
+## Minggu 02 — Class, Object, Attribute, Method
+
+### Prasyarat
+
+- [ ] Minggu 01 sudah ter-merge ke `main`
+- [ ] `git switch main`, `git pull`, `git tag -l week-01` menampilkan `week-01`
+- [ ] `python3 main.py` (versi Minggu 01) masih berjalan
 
 ### Todo
 
-- [ ] Python 3 dan Git terpasang; `user.name` dan `user.email` sudah dikonfigurasi
-- [ ] Repository kosong dibuat di GitHub, semua anggota menjadi collaborator
-- [ ] `mkdir cashier-app`, `git init`, `git switch -c main`
-- [ ] `git remote add origin <URL repository kelompok>`
-- [ ] Commit pertama: `Initial commit`
-- [ ] Commit dokumen: `docs: add PRD, milestone breakdown, and project guidance`
-- [ ] Cabang kerja `feature/foundation`
-- [ ] `main.py`: satu produk sebagai dictionary, jalankan
-- [ ] `main.py`: list berisi banyak produk, cetak daftar, hitung subtotal
-- [ ] `main.py`: tiga catatan keterbatasan dictionary
-- [ ] `.gitignore`: `__pycache__/`, `*.pyc`, `.venv/`, `.env`
-- [ ] `README.md` dengan bagian Weekly Progress
-- [ ] Commit: `feat: add week 01 foundation`
-- [ ] Perbarui Weekly Progress, commit: `docs: mark week 01 complete in milestone tracker`
-- [ ] `git push -u origin feature/foundation`
-- [ ] Buka Pull Request **Week 01 — Initialize Cashier App** memakai template di bawah
-- [ ] Setelah merge: `git switch main`, `git pull`, `git tag week-01`, `git push origin week-01`
+- [ ] `git status --short` kosong
+- [ ] `git switch -c feature/product-model` (dari `main`, bukan dari cabang minggu lalu)
+- [ ] Buat folder `models/`
+- [ ] `models/product.py`: class `Product` dengan `__init__(code, name, price, stock)`
+- [ ] `models/product.py`: method `subtotal(quantity)` yang mengembalikan `self.price * quantity`
+- [ ] `main.py`: `from models.product import Product`, satu object `Product`
+- [ ] `main.py`: list berisi tiga object `Product`, cetak daftar dengan `item.code`, `item.name`, dst.
+- [ ] `main.py`: bagian pembanding dictionary versus object
+- [ ] `main.py`: catatan bahwa harga dan stok negatif masih diterima
+- [ ] Commit: `feat: add product model`
+- [ ] Perbarui Weekly Progress di `README.md` (satu baris untuk Minggu 02)
+- [ ] Commit: `docs: mark week 02 complete in milestone tracker`
+- [ ] `git push -u origin feature/product-model`
+- [ ] Buka Pull Request **Week 02 — Add Product Model** memakai template di bawah
+- [ ] Setelah merge: `git switch main`, `git pull`, `git tag week-02`, `git push origin week-02`
 
 ### Verifikasi
 
-- [ ] `python3 main.py` berjalan sampai selesai tanpa traceback
-- [ ] `git log --oneline` menampilkan lebih dari satu commit bermakna
-- [ ] `git status --short` tidak menampilkan `__pycache__/`
-- [ ] Repository sudah di GitHub dan dapat dibuka anggota kelompok lain
-- [ ] Data produk masih dictionary dan belum ada folder `models/`
+- [ ] `python3 main.py` berjalan tanpa traceback dan keluarannya sesuai modul
+- [ ] `python3 -c "from models.product import Product; print(Product('P001','Indomie',3000,20).subtotal(2))"` mencetak `6000`
+- [ ] `main.py` tidak memuat `price * quantity` untuk data produk, kecuali baris pembanding dictionary
+- [ ] `models/` hanya berisi `product.py`
+- [ ] `models/product.py` belum memuat `@property` atau `_price` (materi Minggu 03)
 
 ### Checkpoint
 
-Repository tersedia, README tersedia, initial commit tersedia.
+Class, object, attribute, method, branch, dan commit bekerja.
 
 ### Pertanyaan Lisan
 
-1. Mengapa dictionary dipilih lebih dahulu?
-2. Keterbatasan apa yang terlihat pada keluaran program?
+1. Apa beda attribute dan method?
+2. Apa yang dikerjakan `__init__`?
+3. Mengapa `subtotal()` diletakkan di dalam class alih-alih di `main.py`?
 
 ### Template Deskripsi Pull Request
 
