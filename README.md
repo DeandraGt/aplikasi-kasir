@@ -1,13 +1,14 @@
 # Simple Cashier
 
 Aplikasi kasir sederhana berbasis Python, dikembangkan bertahap pada mata kuliah
-**Pemrograman Komputer 2 (BD322)**, Program Studi Teknik Informatika,
+**Pemrograman Komputer 2 (BD322)**, Program Studi Bisnis Digital,
 Universitas Panca Bhakti Pontianak.
 
 ## Tujuan
 
 Membangun aplikasi kasir yang menampilkan daftar produk dan menghitung subtotal belanja.
-Pada Minggu 01, data produk disimpan sebagai dictionary di dalam list.
+Pada Minggu 02, data produk berpindah dari dictionary ke object dari class `Product`,
+dan perhitungan subtotal menjadi method milik class tersebut.
 
 ## Kebutuhan
 
@@ -23,6 +24,8 @@ cd cashier-app
 python3 main.py
 ```
 
+Jalankan dari akar repository (folder yang memuat `main.py` dan `models/`),
+supaya `from models.product import Product` dapat ditemukan.
 Pada Linux dan WSL, gunakan `python3`, bukan `python`.
 
 ## Struktur Proyek
@@ -31,7 +34,9 @@ Pada Linux dan WSL, gunakan `python3`, bukan `python`.
 cashier-app/
 ├── .gitignore
 ├── README.md
-└── main.py
+├── main.py
+└── models/
+    └── product.py
 ```
 
 ## Weekly Progress
@@ -39,5 +44,4 @@ cashier-app/
 | Minggu | Topik | Status |
 |--------|-------|--------|
 | 01 | Foundation: repository, program pertama, data produk sebagai dictionary | Selesai |
-
-
+| 02 | Class, Object, Attribute, Method: class `Product` dan method `subtotal(quantity)` | Selesai |
