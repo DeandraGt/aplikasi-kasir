@@ -1,10 +1,12 @@
-"""Simple Cashier — Minggu 07 (File Handling & Persistence).
+"""Simple Cashier — Minggu 08 (UTS / Project Checkpoint).
 
-Produk tidak lagi ditulis di dalam kode.
-Data dibaca dari data/products.csv saat program mulai,
-dan ditulis kembali saat ada perubahan.
+Program demonstrasi berurutan untuk Minggu 02 sampai 07.
+Tidak ada fitur baru: seluruh isinya memanggil apa yang sudah ada.
 """
 
+from models.digital_product import DigitalProduct
+from models.food_product import FoodProduct
+from models.product import Product
 from models.product_catalog import ProductCatalog
 from repositories.order_repository import OrderRepository
 from repositories.product_repository import ProductRepository
@@ -14,70 +16,126 @@ from services.order_queue import OrderQueue
 PRODUCTS_PATH = "data/products.csv"
 ORDERS_PATH = "data/orders.json"
 
-product_repository = ProductRepository(PRODUCTS_PATH)
-order_repository = OrderRepository(ORDERS_PATH)
+
+def judul(teks):
+    print()
+    print("---", teks, "---")
+
 
 print("=========================")
 print("     SIMPLE CASHIER")
+print("   UTS Checkpoint W01-07")
 print("=========================")
-print()
 
-print("--- Muat produk dari CSV ---")
+# ------------------------------------------------------------------
+# Minggu 02-03 — Class, Object, Encapsulation
+# ------------------------------------------------------------------
+judul("W02-03  Class, Object, Encapsulation")
+
+contoh = Product("P000", "Contoh", 3000, 20)
+print("subtotal(2)      :", contoh.subtotal(2))
+
+try:
+    contoh.price = -5000
+except AttributeError:
+    print("price = -5000    : ditolak (read-only property)")
+
+try:
+    contoh.change_price(-5000)
+except ValueError as error:
+    print("change_price(-1) :", error)
+
+try:
+    contoh.reduce_stock(999)
+except ValueError as error:
+    print("reduce_stock(999):", error)
+
+# ------------------------------------------------------------------
+# Minggu 04 — Inheritance & Polymorphism
+# ------------------------------------------------------------------
+judul("W04  Inheritance & Polymorphism")
+
+varian = [
+    Product("P001", "Indomie", 3000, 20),
+    FoodProduct("F001", "Roti", 7000, 8, "2026-12-01"),
+    DigitalProduct("D001", "E-Book Python", 50000, 99),
+]
+
+# Satu loop, tiga hasil berbeda, tanpa memeriksa jenis produk.
+for item in varian:
+    print(f"{item.code:5} {item.get_description()}")
+
+# ------------------------------------------------------------------
+# Minggu 07 — Repository & File (memuat data nyata)
+# ------------------------------------------------------------------
+judul("W07  Repository & File")
+
+product_repository = ProductRepository(PRODUCTS_PATH)
+order_repository = OrderRepository(ORDERS_PATH)
 
 catalog = ProductCatalog()
 
 for product in product_repository.load():
     catalog.add(product)
 
+print("Dimuat dari", PRODUCTS_PATH, ":", len(catalog.all()), "produk")
+print("File tidak ada   :", ProductRepository("data/hilang.csv").load())
+
+# ------------------------------------------------------------------
+# Minggu 05 — List & Dictionary
+# ------------------------------------------------------------------
+judul("W05  Catalog: List & Dictionary")
+
 for item in catalog.all():
-    print(item.code, "|", item.name, "| harga", item.price, "| stock", item.stock)
+    print(f"{item.code:5} {item.name:12} {item.price:>6} stock {item.stock}")
 
 print()
-print("--- File tidak ada ---")
+print("get('P001')      :", catalog.get("P001").name, "(dictionary, satu langkah)")
+print("get('P999')      :", catalog.get("P999"), "(tidak error)")
+print("search('teh')    :", [p.name for p in catalog.search("teh")])
+print("search('TEH')    :", [p.name for p in catalog.search("TEH")])
+print("search('kopi')   :", catalog.search("kopi"), "(tidak ditemukan)")
 
-kosong = ProductRepository("data/tidak_ada.csv")
-print("load() ->", kosong.load(), "(FileNotFoundError ditangani)")
+# ------------------------------------------------------------------
+# Minggu 06 — Stack & Queue
+# ------------------------------------------------------------------
+judul("W06  Queue (FIFO) vs Stack (LIFO)")
 
-print()
-print("--- Transaksi lalu simpan ---")
+queue = OrderQueue()
+history = ActionHistory()
+
+for penanda in ["A", "B", "C"]:
+    queue.enqueue(penanda)
+    history.push(penanda)
+
+print("Masuk            : A B C")
+print("Queue keluar     :", queue.dequeue(), queue.dequeue(), queue.dequeue(), "(FIFO)")
+print("Stack keluar     :", history.pop(), history.pop(), history.pop(), "(LIFO)")
+print("Queue kosong     :", queue.dequeue(), "| Stack kosong:", history.pop())
+
+# ------------------------------------------------------------------
+# Alur penuh — Object -> Struktur Data -> Repository -> File
+# ------------------------------------------------------------------
+judul("Alur penuh: Object -> Struktur Data -> Repository -> File")
 
 indomie = catalog.get("P001")
-history = ActionHistory()
-queue = OrderQueue()
+print("Stock Indomie    :", indomie.stock)
 
-orders = order_repository.load()
-jumlah = 3
-
-print("Stock Indomie sebelum:", indomie.stock)
-
-# Stock berkurang setiap kali program dijalankan, karena memang tersimpan.
-# Karena itu penjualan hanya diproses selama stock masih cukup.
-if indomie.stock >= jumlah:
-    indomie.reduce_stock(jumlah)
-    history.push(f"jual Indomie x{jumlah}")
-
-    queue.enqueue(f"ORD-{len(orders) + 1:03d} Indomie x{jumlah}")
-    orders.append(queue.dequeue())
-
-    product_repository.save(catalog.all())
-    order_repository.save(orders)
-
-    print("Stock Indomie sesudah:", indomie.stock)
-    print("Perubahan ditulis ke", PRODUCTS_PATH, "dan", ORDERS_PATH)
-else:
-    print("Stock Indomie tinggal", indomie.stock, "- penjualan dilewati.")
-    print("Isi ulang stock di", PRODUCTS_PATH, "untuk mencoba lagi.")
-
-print()
-print("--- Baca ulang dari file ---")
+indomie.reduce_stock(3)
+product_repository.save(catalog.all())
+print("Setelah jual 3   :", indomie.stock, "-> tersimpan")
 
 # Repository baru, seolah-olah program baru saja dijalankan lagi.
 segar = ProductRepository(PRODUCTS_PATH).load()
 indomie_lagi = [p for p in segar if p.code == "P001"][0]
-print("Stock Indomie setelah dibaca ulang:", indomie_lagi.stock)
-print("Order tersimpan:", OrderRepository(ORDERS_PATH).load())
+print("Baca ulang       :", indomie_lagi.stock)
 
-print()
-print("--- Mengapa CSV dan JSON? ---")
-print("Produk berbentuk tabel datar -> CSV.")
-print("Order berisi daftar item di dalamnya -> JSON.")
+orders = order_repository.load()
+queue.enqueue(f"ORD-{len(orders) + 1:03d} Indomie x3")
+orders.append(queue.dequeue())
+order_repository.save(orders)
+print("Order tersimpan  :", len(order_repository.load()), "order")
+
+judul("Rantai yang harus bisa dijelaskan")
+print("Class -> Object -> Data Structure -> Repository -> File")
+print("Minggu 09 mengganti ujung 'File' menjadi 'Database'.")
