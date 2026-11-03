@@ -18,6 +18,7 @@ Simple Cashier merupakan program kasir sederhana yang berfokus pada pengelolaan 
 
 ```text
 aplikasi-kasir/
+├── .gitignore
 ├── main.py
 ├── data/
 │   ├── products.csv
@@ -33,12 +34,15 @@ aplikasi-kasir/
 ├── repositories/
 │   ├── product_repository.py
 │   └── order_repository.py
+├── docs/
+│   └── uts-checkpoint.md
 └── README.md
 ```
 
 ### Keterangan
 
-- `main.py`: Menjalankan program dan menguji fitur yang dikembangkan.
+- `.gitignore`: Menjaga berkas hasil dan berkas rahasia (`__pycache__/`, `.venv/`, `.env`, `*.db`, `*.sqlite3`) agar tidak ikut ter-commit.
+- `main.py`: Menjalankan program demonstrasi Minggu 02 sampai 07 secara berurutan.
 - `data/products.csv`: Menyimpan data produk dalam format CSV.
 - `data/orders.json`: Menyimpan daftar order dalam format JSON.
 - `models/product.py`: Berisi class utama `Product`, termasuk data dan perilaku dasar produk.
@@ -49,6 +53,7 @@ aplikasi-kasir/
 - `services/action_history.py`: Berisi class `ActionHistory` untuk mengelola riwayat tindakan menggunakan list.
 - `repositories/product_repository.py`: Membaca dan menyimpan data produk menggunakan CSV.
 - `repositories/order_repository.py`: Membaca dan menyimpan data order menggunakan JSON.
+- `docs/uts-checkpoint.md`: Hasil pemeriksaan UTS: cakupan requirement, temuan, pemeriksaan batas lapisan, skenario demo, dan keadaan yang dibawa ke Minggu 09.
 - `README.md`: Dokumentasi proyek dan perkembangan praktikum.
 
 ## Cara Menjalankan Program
@@ -92,6 +97,7 @@ python3 main.py
 | 05 | List & Dictionary: `ProductCatalog`, penyimpanan produk berdasarkan kode, pengambilan produk, penghapusan produk, dan pencarian berdasarkan nama | Selesai |
 | 06 | Stack & Queue: `ActionHistory`, `OrderQueue`, LIFO, FIFO, `push()`, `pop()`, `enqueue()`, dan `dequeue()` | Selesai |
 | 07 | File Handling & Persistence: CSV, JSON, `ProductRepository`, `OrderRepository`, `load()`, `save()`, dan persistensi data | Selesai |
+| 08 | UTS / Project Checkpoint: pemeriksaan ulang Minggu 01–07, batas lapisan `repositories/`, `main.py` sebagai program demonstrasi, dan `docs/uts-checkpoint.md` | Selesai |
 
 ## Ringkasan Pengembangan
 
@@ -212,6 +218,41 @@ Program memuat produk dari CSV ketika dijalankan, memproses penjualan selama sto
 - Program membaca ulang data melalui repository baru untuk memeriksa bahwa perubahan benar-benar tersimpan.
 - Ketika program dijalankan kembali, stok dimuat dari nilai terakhir yang tersimpan, bukan kembali ke nilai awal.
 
+### Minggu 08 — UTS / Project Checkpoint
+
+Minggu ini tidak menambahkan fitur baru. Minggu 01–07 diperiksa ulang, batas antar-lapisan ditegakkan, dan seluruh hasilnya dirangkai menjadi satu program demonstrasi.
+
+**1. Pemeriksaan Tag**
+
+- Ketujuh tag (`week-01` sampai `week-07`) dibuka satu per satu dengan `git switch --detach` dan program dijalankan.
+- Ditemukan bahwa tag `week-02` sampai `week-07` menunjuk commit satu minggu lebih awal dari seharusnya.
+- Tag dipindahkan dengan `git tag -f` ke commit merge masing-masing minggu, lalu didorong ulang dengan `git push -f origin <tag>`.
+- Tindakan ini dicatat di `docs/uts-checkpoint.md`.
+
+**2. Pemeriksaan Batas Lapisan**
+
+- Seluruh akses berkas berada di dalam `repositories/`.
+- Pencarian `open(`, `import csv`, dan `import json` pada `models/`, `services/`, dan `main.py` tidak menghasilkan keluaran.
+- Isi `models/`, `services/`, dan `repositories/` tidak diubah pada minggu ini.
+
+**3. Program Demonstrasi**
+
+- `main.py` ditulis ulang menjadi program demonstrasi berurutan dengan judul bagian yang menyebut minggunya.
+- Fungsi kecil `judul()` digunakan agar penulisan judul bagian tidak diulang.
+- Bagian Minggu 02–03 memperagakan method pada object dan tiga percobaan yang ditolak.
+- Bagian Minggu 04 memperagakan satu loop atas tiga jenis produk.
+- Bagian Minggu 07, 05, dan 06 memperagakan repository, katalog, serta queue dan stack.
+- Bagian penutup memperagakan alur penuh dari object sampai file dan menyebut rantai `Class → Object → Data Structure → Repository → File`.
+
+**4. Data Awal dan `.gitignore`**
+
+- Data awal `data/products.csv` (stok Indomie `20`) dan `data/orders.json` (kosong) dikembalikan karena berkas yang ter-commit sebelumnya sudah berubah akibat program pernah dijalankan.
+- `.gitignore` menambahkan `*.db` dan `*.sqlite3` untuk berkas basis data pada Minggu 09.
+
+**5. Dokumentasi Checkpoint**
+
+- `docs/uts-checkpoint.md` memuat cakupan requirement per minggu, temuan beserta tindakannya, hasil pemeriksaan batas lapisan, skenario demo sepuluh langkah, rantai yang harus dapat dijelaskan, dan keadaan yang dibawa ke Minggu 09.
+
 ## Hasil Pengujian Minggu 04
 
 Program diuji menggunakan perintah `python main.py` atau `python3 main.py`.
@@ -302,22 +343,57 @@ grep -rn "open(\|csv\|json" models/ services/
 
 Perintah terakhir diharapkan tidak menghasilkan keluaran.
 
+## Hasil Pengujian Minggu 08
+
+Data dikembalikan ke keadaan awal sebelum program dijalankan, karena program mengubah `data/products.csv` dan `data/orders.json`.
+
+```bash
+git checkout -- data/
+python main.py
+```
+
+Jika lingkungan menggunakan perintah `python3`, jalankan `python3 main.py`.
+
+Hasil yang diharapkan:
+
+- Program berjalan sampai selesai tanpa traceback.
+- Bagian Minggu 02–03: `subtotal(2)` menghasilkan `6000`; assignment langsung ke `price` ditolak; `change_price()` menolak harga negatif; `reduce_stock(999)` menghasilkan `Insufficient stock`.
+- Bagian Minggu 04: satu loop menampilkan tiga deskripsi berbeda untuk `Product`, `FoodProduct`, dan `DigitalProduct`.
+- Bagian Minggu 07: `Dimuat dari data/products.csv : 4 produk`, dan berkas yang tidak ada menghasilkan `[]`.
+- Bagian Minggu 05: `get('P999')` menghasilkan `None`; `search('teh')` dan `search('TEH')` menghasilkan dua produk; `search('kopi')` menghasilkan `[]`.
+- Bagian Minggu 06: queue mengeluarkan `A B C`, stack mengeluarkan `C B A`, dan keduanya menghasilkan `None` saat kosong.
+- Alur penuh: stok Indomie `20`, setelah jual 3 menjadi `17` dan tersimpan, dibaca ulang tetap `17`, dan `Order tersimpan  : 1 order`.
+- Perintah pencarian batas lapisan tidak menghasilkan keluaran.
+
+Setelah demonstrasi, data dipulihkan dengan `git checkout -- data/`.
+
+### Perintah Verifikasi Minggu 08
+
+```bash
+git tag -l
+git status --short
+```
+
+`git tag -l` menampilkan tag `week-01` sampai `week-07` (dan `week-08-uts` setelah Pull Request di-merge). `git status --short` tidak menampilkan folder `data/` setelah data dipulihkan.
+
 ## Tujuan Pembelajaran
 
-Melalui proyek Simple Cashier, mahasiswa diharapkan memahami dasar pemrograman Python, pemodelan produk menggunakan class, encapsulation untuk menjaga validitas data, inheritance untuk menggunakan kembali perilaku class induk, polymorphism untuk menjalankan perilaku berbeda melalui method yang sama, penggunaan list dan dictionary untuk mengelola kumpulan data, penerapan stack dan queue untuk mengatur urutan tindakan, serta file handling dan persistence untuk menyimpan data secara permanen melalui CSV dan JSON.
+Melalui proyek Simple Cashier, mahasiswa diharapkan memahami dasar pemrograman Python, pemodelan produk menggunakan class, encapsulation untuk menjaga validitas data, inheritance untuk menggunakan kembali perilaku class induk, polymorphism untuk menjalankan perilaku berbeda melalui method yang sama, penggunaan list dan dictionary untuk mengelola kumpulan data, penerapan stack dan queue untuk mengatur urutan tindakan, serta file handling dan persistence untuk menyimpan data secara permanen melalui CSV dan JSON. Pada checkpoint UTS, mahasiswa juga diharapkan dapat menjelaskan rantai Class → Object → Data Structure → Repository → File tanpa membuka kode.
 
 ## Version Control
 
 Pengembangan proyek dilakukan secara bertahap menggunakan Git dan GitHub. Setiap minggu dikerjakan melalui branch tersendiri, kemudian diajukan melalui Pull Request untuk ditinjau dan digabungkan ke branch utama sesuai alur praktikum.
 
-Checkpoint setiap minggu menggunakan tag Git, seperti `week-02`, `week-03`, `week-04`, `week-05`, `week-06`, dan `week-07`, sesuai tahapan yang telah diselesaikan.
+Checkpoint setiap minggu menggunakan tag Git, seperti `week-02`, `week-03`, `week-04`, `week-05`, `week-06`, `week-07`, dan `week-08-uts`, sesuai tahapan yang telah diselesaikan.
 
 Untuk Minggu 07, branch yang digunakan adalah `feature/persistence`, dengan Pull Request berjudul **Week 07 — Add CSV and JSON Persistence**.
 
+Untuk Minggu 08, branch yang digunakan adalah `chore/uts-checkpoint`, dengan Pull Request berjudul **Week 08 — UTS Project Checkpoint**.
+
 ## Status Proyek
 
-**Minggu 01–07: Selesai.**
+**Minggu 01–08: Selesai.**
 
 Proyek telah mencakup model produk dasar, encapsulation, inheritance, polymorphism, pengelolaan katalog menggunakan list dan dictionary, pengelolaan antrean order dan riwayat tindakan menggunakan queue dan stack, serta penyimpanan data produk dan order menggunakan CSV dan JSON.
 
-Pengembangan selanjutnya mengikuti materi dan kebutuhan pada minggu praktikum berikutnya.
+Checkpoint UTS (Minggu 08) telah memeriksa ulang seluruh pekerjaan Minggu 01–07 tanpa menambah fitur baru. Pengembangan selanjutnya mengikuti materi dan kebutuhan pada minggu praktikum berikutnya, dimulai dari penggantian penyimpanan file dengan basis data pada Minggu 09.
